@@ -1,0 +1,24 @@
+<table class="game-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Genre</th>
+                    <th>Price</th>
+                    <th>Release Date</th>
+                    <th></th> </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let game of gameList">
+                    <td>{{ game.id }}</td>
+                    <td>{{ game.name }}</td>
+                    <td>{{ game.genre }}</td>
+                    <td>{{ game.price | currency }}</td>
+                    <td>{{ game.releaseDate | date }}</td>
+                    <td>
+                        <button class="btn-edit" (click)="onEditGame(game)">Edit</button>
+                        <button class="btn-delete" (click)="onDeleteGame(game)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>

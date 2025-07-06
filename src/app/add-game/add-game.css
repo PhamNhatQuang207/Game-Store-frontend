@@ -1,0 +1,119 @@
+h1 {
+    margin-top: 10px;
+    margin: 0;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.form-container {
+    padding-top: 30px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 500px; /* Adjust width of the form container */
+    margin-top: 30px; /* Spacing from the top bar */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    background: #fff;
+    -webkit-appearance: none; /* Remove default browser styling for select */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Specific styling for the number input with arrows */
+.form-group input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: spinner-buttons; /* Chrome, Safari */
+    opacity: 1; /* Make them visible */
+}
+
+
+.form-group select {
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%0%201-24.7%200L146.2%20186.6%2034%2069.4c-6.6-6.6-17.6-6.6-24.7%200-6.5%206.5-6.5%2017.5%200%2024L133.5%20227.3c6.6%206.6%2017.6%206.6%2024.7%200l129.8-129.7c6.6-6.6%206.6-17.6%200-24%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+}
+
+/* Hide the default date picker icon for consistency */
+.date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+.date-input-wrapper input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+.date-input-wrapper input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+
+.calendar-icon {
+    padding: 0 10px;
+    color: #495057;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-save {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background-color: #0056b3;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}

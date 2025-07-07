@@ -50,6 +50,7 @@ h1 {
 /* Specific styling for the number input with arrows */
 .form-group input[type="number"] {
     -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Standard property */
 }
 .form-group input[type="number"]::-webkit-outer-spin-button,
 .form-group input[type="number"]::-webkit-inner-spin-button {
@@ -116,4 +117,31 @@ h1 {
 
 .btn-cancel:hover {
     background-color: #5a6268;
+}
+
+/* Loading spinner styles */
+.loading {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading span {
+    color: #666;
+    font-size: 14px;
 }

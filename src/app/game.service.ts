@@ -56,8 +56,22 @@ export class GameService {
     return (error: HttpErrorResponse) => {
       console.error(`${operation}:`, error);
       
+      let errorMessage = 'Unknown error occurred';
+      
+      if (error.status === 0) {
+        errorMessage = 'Cannot connect to server. Please check if the backend server is running on port 5017.';
+      } else if (error.status === 404) {
+        errorMessage = 'API endpoint not found. Please check the server configuration.';
+      } else if (error.status >= 500) {
+        errorMessage = 'Server error. Please try again later.';
+      } else if (error.error?.message) {
+        errorMessage = error.error.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       // Return a user-facing message
-      return throwError(() => new Error(`${operation}: ${error.error?.message || error.message || 'Unknown error occurred'}`));
+      return throwError(() => new Error(errorMessage));
     };
   }
 }

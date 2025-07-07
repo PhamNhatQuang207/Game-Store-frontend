@@ -5,7 +5,9 @@
 <section class="game-list">
     <div *ngIf="loading" class="loading">Loading games...</div>
     <div *ngIf="error" class="error-message">{{ error }}</div>
-    <app-game-list *ngIf="!loading && !error && gameList.length > 0" [gameList]="gameList"></app-game-list>
+    <app-game-list *ngIf="!loading && !error && gameList.length > 0" 
+                   [gameList]="gameList" 
+                   (gameDeleted)="onGameDeleted($event)"></app-game-list>
     
     <div *ngIf="!loading && !error && gameList.length === 0" class="no-games">
         No games found. <a (click)="onButtonClick()" style="cursor: pointer; color: blue;">Add your first game!</a>

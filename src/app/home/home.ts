@@ -91,6 +91,15 @@ export class Home implements OnInit, OnDestroy, AfterViewInit {
     this.loadGames();
   }
   
+  onGameDeleted(deletedGame: Game) {
+    console.log('Game deleted event received:', deletedGame);
+    // Remove the deleted game from the home component's game list
+    this.gameList = this.gameList.filter(game => game.id !== deletedGame.id);
+    console.log('Updated gameList length:', this.gameList.length);
+    // Force change detection to ensure UI updates
+    this.cdr.detectChanges();
+  }
+  
   onButtonClick() {
     this.router.navigate(['/add-game']);
   }

@@ -1,4 +1,4 @@
-import { Component,Input,inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Game } from '../game';
 import { GameService } from '../game.service';
@@ -12,6 +12,8 @@ import { RouterModule, Router } from '@angular/router';
 })
 export class GameList {
   @Input() gameList: Game[] = [];
+  @Output() gameDeleted = new EventEmitter<Game>();
+  
   constructor(private gameService: GameService, private router: Router) {}
   onEditGame(game: Game) {
     this.router.navigate(['/edit-game'], { queryParams: { id: game.id } });
@@ -21,7 +23,9 @@ export class GameList {
     if (confirm('Are you sure you want to delete this game?')) {
       this.gameService.deleteGameById(game.id).subscribe({
         next: () => {
-          // Remove the game from the local array to update UI
+          // Emit event to notify parent component
+          this.gameDeleted.emit(game);
+          // Also update local array for immediate UI feedback
           this.gameList = this.gameList.filter(g => g.id !== game.id);
         },
         error: (_) => {

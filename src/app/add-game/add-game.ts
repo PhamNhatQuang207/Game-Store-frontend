@@ -37,6 +37,7 @@ export class AddGame implements OnInit, OnDestroy {
   }
   
   loadGenres() {
+    console.log('loadGenres() called');
     this.loading = true;
     this.error = '';
     
@@ -47,8 +48,10 @@ export class AddGame implements OnInit, OnDestroy {
       this.error = 'Loading timed out. Please try again.';
     }, 5000); // 5 second timeout
     
+    console.log('Making subscription to getAllGenre()');
     const subscription = this.gameService.getAllGenre().subscribe({
       next: (genreData) => {
+        console.log('Genres received:', genreData);
         clearTimeout(timeoutId); // Clear the timeout since we got a response
         this.genres = genreData;
         this.loading = false;
@@ -117,12 +120,6 @@ export class AddGame implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
-  }
-  
-  forceStopLoading() {
-    console.log('Force stopping loading');
-    this.loading = false;
-    this.cdr.detectChanges();
   }
   
   resetForm() {

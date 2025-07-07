@@ -4,13 +4,25 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+To start a local development server with CORS proxy configuration, run:
+
+```bash
+npm start
+```
+
+This uses the proxy configuration in `proxy.conf.json` to avoid CORS issues when communicating with the backend server.
+
+If you want to run without the proxy (not recommended), you can use:
 
 ```bash
 ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+### Backend Server
+
+Make sure your backend server is running at http://localhost:5017. If your backend is running on a different port, update the `proxy.conf.json` file accordingly.
 
 ## Code scaffolding
 

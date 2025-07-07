@@ -1,6 +1,14 @@
 <div class="container form-container">
   <h1>New Game</h1>
-  <form (submit)="addGame($event)">
+  
+  <div *ngIf="loading" class="loading">Loading...</div>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+    <button (click)="loadGenres()" class="btn">Try Again</button>
+  </div>
+  
+  <form *ngIf="!loading && !error" (submit)="addGame($event)">
     <div class="form-group">
       <label for="gameName">Name:</label>
       <input type="text" id="gameName" name="gameName" [(ngModel)]="gameName" required />
@@ -20,14 +28,14 @@
     </div>
 
     <div class="form-group">
-        <label for="releaseDate">Release Date:</label>
-        <input
-            type="date"
-            id="releaseDate"
-            name="releaseDate"
-            [(ngModel)]="gameReleaseDate"
-            required
-        />
+      <label for="releaseDate">Release Date:</label>
+      <input
+        type="date"
+        id="releaseDate"
+        name="releaseDate"
+        [(ngModel)]="gameReleaseDate"
+        required
+      />
     </div>
 
     <div class="form-actions">

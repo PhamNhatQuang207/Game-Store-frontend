@@ -1,56 +1,74 @@
 import { Injectable } from '@angular/core';
 import { Game } from './game';
 import { Genre } from './genre';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, catchError, tap } from 'rxjs';
+import { GameToAdd } from './game-to-add';
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  protected gameList: Game[] = [
-    {
-      id: 1,
-      name: 'Game 1',
-      genre: 'Action',
-      releaseDate: new Date('2023-01-01'),
-      price: 59.99
-    },
-    {
-      id: 2,
-      name: 'Game 2',
-      genre: 'Adventure',
-      releaseDate: new Date('2023-02-01'),
-      price: 49.99
-    }
-  ];
-  protected genreList: Genre[] = [
-    { id: 1, name: 'Action' },
-    { id: 2, name: 'Adventure' },
-    { id: 3, name: 'Role-Playing' },
-    { id: 4, name: 'Simulation' },
-    { id: 5, name: 'Strategy' },
-  ];
-  constructor() {}
-  getAllGenre(): Genre[] {
-    return this.genreList;
+  // Allow for both HTTP and HTTPS connections
+  url = "http://localhost:5017"; // Default URL
+  constructor(private http: HttpClient) {}
+
+  getAllGames(): Observable<Game[]> {
+    console.log('Fetching games from:', `${this.url}/games`);
+    return this.http.get<Game[]>(`${this.url}/games`).pipe(
+      tap(games => console.log('Games received:', games)),
+      catchError(this.handleError('Error fetching games'))
+    );
   }
-  getAllGames(): Game[] {
-    return this.gameList;
+  
+  getAllGenre(): Observable<Genre[]> {
+    console.log('Fetching genres from:', `${this.url}/genres`);
+    return this.http.get<Genre[]>(`${this.url}/genres`).pipe(
+      tap(genres => console.log('Genres received:', genres)),
+      catchError(this.handleError('Error fetching genres'))
+    );
   }
-  getGameById(id: number): Game | undefined {
-    return this.gameList.find(game => game.id === id);
+  
+  getGameById(id: number): Observable<Game> {
+    console.log('Fetching game with ID:', id);
+    return this.http.get<Game>(`${this.url}/games/${id}`).pipe(
+      tap(game => console.log('Game received:', game)),
+      catchError(this.handleError('Error fetching game'))
+    );
   }
-  addGame(game: Game): void {
-    this.gameList.push(game);
+  
+  addGame(game: GameToAdd): Observable<GameToAdd> {
+    console.log('Adding game:', game);
+    return this.http.post<GameToAdd>(`${this.url}/games`, game).pipe(
+      tap(newGame => console.log('Game added:', newGame)),
+      catchError(this.handleError('Error adding game'))
+    );
   }
-  deleteGameById(id: number): void {
-    const idx = this.gameList.findIndex(game => game.id === id);
-    if (idx !== -1) {
-      this.gameList.splice(idx, 1);
-    }
+  
+  deleteGameById(id: number): Observable<any> {
+    console.log('Deleting game with ID:', id);
+    return this.http.delete(`${this.url}/games/${id}`).pipe(
+      tap(() => console.log('Game deleted')),
+      catchError(this.handleError('Error deleting game'))
+    );
   }
-  updateGame(updatedGame: Game): void {
-    const idx = this.gameList.findIndex(game => game.id === updatedGame.id);
-    if (idx !== -1) {
-      this.gameList[idx] = updatedGame;
-    }
+  
+  updateGame(updatedGame: Game): Observable<Game> {
+    console.log('Updating game:', updatedGame);
+    return this.http.put<Game>(`${this.url}/games/${updatedGame.id}`, updatedGame).pipe(
+      tap(game => console.log('Game updated:', game)),
+      catchError(this.handleError('Error updating game'))
+    );
+  }
+  
+  private handleError(operation: string) {
+    return (error: HttpErrorResponse) => {
+      console.error(`${operation}:`, error);
+      if (error.status === 0) {
+        console.error('Network error or CORS issue. Is the server running?');
+      } else {
+        console.error(`Backend returned code ${error.status}, body was:`, error.error);
+      }
+      return throwError(() => new Error(`${operation}: ${error.message}`));
+    };
   }
 }

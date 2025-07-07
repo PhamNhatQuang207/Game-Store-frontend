@@ -2,6 +2,6 @@
     <button class="btn" (click)="onButtonClick()">New Game</button>
 </section>
 <section class="game-list">
-    <app-game-list [gameList]="gameList"></app-game-list>.
+    <app-game-list *ngIf="gameList.length > 0" [gameList]="gameList"></app-game-list>
 </section>
 

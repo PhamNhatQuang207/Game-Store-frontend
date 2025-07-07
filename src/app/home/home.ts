@@ -54,17 +54,13 @@ export class Home implements OnInit, OnDestroy {
     this.loading = true;
     this.error = '';
     
-    console.log('Loading games...');
-    
     const gamesSub = this.gameService.getAllGames().subscribe({
       next: (games) => {
-        console.log('Games loaded successfully:', games);
         this.gameList = games;
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error loading games:', err);
-        this.error = `Failed to load games: ${err.message || 'Unknown error'}`;
+      error: (_) => {
+        this.error = 'Failed to load games. Please make sure the server is running.';
         this.loading = false;
       }
     });

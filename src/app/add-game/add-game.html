@@ -4,8 +4,11 @@
   <div *ngIf="loading" class="loading">Loading...</div>
   
   <div *ngIf="error" class="error-message">
-    {{ error }}
-    <button (click)="loadGenres()" class="btn">Try Again</button>
+    <strong>Error:</strong> {{ error }}
+    <div class="error-actions">
+      <button (click)="loadGenres()" class="btn">Reload Genres</button>
+      <button (click)="error = ''" class="btn">Dismiss</button>
+    </div>
   </div>
   
   <form *ngIf="!loading && !error" (submit)="addGame($event)">
@@ -16,9 +19,9 @@
 
     <div class="form-group">
       <label for="gameGenre">Genre:</label>
-      <select id="gameGenre" name="gameGenre" [(ngModel)]="gameGenre" required>
-        <option value="">Select a genre</option>
-        <option *ngFor="let genre of genres" [value]="genre.name">{{ genre.name }}</option>
+      <select id="gameGenre" name="gameGenre" [(ngModel)]="gameGenreId" required>
+        <option [ngValue]="null">Select a genre</option>
+        <option *ngFor="let genre of genres" [ngValue]="genre.id">{{ genre.name }}</option>
       </select>
     </div>
 

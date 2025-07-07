@@ -16,9 +16,9 @@
 
     <div class="form-group">
       <label for="gameGenre">Genre:</label>
-      <select id="gameGenre" name="gameGenre" [(ngModel)]="game.genre" required>
+      <select id="gameGenre" name="gameGenre" [(ngModel)]="selectedGenreId" required>
         <option value="">Select a genre</option>
-        <option *ngFor="let genre of genres" [value]="genre.name">{{ genre.name }}</option>
+        <option *ngFor="let genre of genres" [ngValue]="genre.id">{{ genre.name }}</option>
       </select>
     </div>
 

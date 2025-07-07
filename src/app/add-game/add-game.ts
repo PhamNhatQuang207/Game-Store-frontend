@@ -14,7 +14,7 @@ import { Genre } from '../genre';
 })
 export class AddGame implements OnInit {
   gameName = '';
-  gameGenre = '';
+  gameGenreId: number | null = null;
   gamePrice = '';
   gameReleaseDate = '';
   gameService = inject(GameService);
@@ -29,38 +29,53 @@ export class AddGame implements OnInit {
   
   loadGenres() {
     this.loading = true;
+    this.error = '';
     this.gameService.getAllGenre().subscribe({
       next: (genreData) => {
         this.genres = genreData;
         this.loading = false;
-        console.log('Genres loaded in AddGame:', genreData);
       },
       error: (err) => {
-        this.error = 'Failed to load genres';
+        this.error = 'Failed to load genres. Please make sure the server is running.';
         this.loading = false;
-        console.error('Error loading genres:', err);
       }
     });
   }
 
   addGame(event: Event) {
     event.preventDefault();
-    this.loading = true;
     
-    this.gameService.addGame({
+    // Validate required fields
+    if (!this.gameName || !this.gameGenreId || !this.gamePrice || !this.gameReleaseDate) {
+      this.error = 'Please fill in all required fields';
+      return;
+    }
+    
+    this.loading = true;
+    this.error = '';
+    
+    // The backend expects genreId as a string
+    const genreId = this.gameGenreId !== null ? String(this.gameGenreId) : '';
+    
+    // Format the date as YYYY-MM-DD
+    const releaseDate = this.gameReleaseDate 
+      ? new Date(this.gameReleaseDate).toISOString().split('T')[0] 
+      : '';
+    
+    const payload = {
       name: this.gameName,
-      genre: this.gameGenre,
+      genreId: genreId,
       price: parseFloat(this.gamePrice),
-      releaseDate: new Date(this.gameReleaseDate)
-    }).subscribe({
+      releaseDate: releaseDate
+    };
+    
+    this.gameService.addGame(payload).subscribe({
       next: (response) => {
-        console.log('Game added successfully:', response);
         this.loading = false;
         this.resetForm();
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('/', { replaceUrl: true });
       },
       error: (err) => {
-        console.error('Error adding game:', err);
         this.error = 'Failed to add the game. Please try again.';
         this.loading = false;
       }
@@ -69,12 +84,13 @@ export class AddGame implements OnInit {
   
   resetForm() {
     this.gameName = '';
-    this.gameGenre = '';
+    this.gameGenreId = null;
     this.gamePrice = '';
     this.gameReleaseDate = '';
   }
-
+  
   cancel() {
-    this.router.navigate(['/']);
+    // Navigate back to the home page when canceling
+    this.router.navigateByUrl('/');
   }
 }
